@@ -114,5 +114,5 @@ def all():
 			nthDividend = td[i + 1]
 			dividendAmount = nthDividend.find("b").text
 	#Json
-	json = '{ "Request":"Description", "Description":"' + description + '", "marketCap":"' + marketCap + '", "Price":"' + price + '", "amountDividend":"' + dividendAmount + '"}'
+	json = '{ "Request":"All Data", "Description":"' + description + '", "marketCap":"' + marketCap + '", "Price":"' + price + '", "amountDividend":"' + dividendAmount + '"}'
 	return json

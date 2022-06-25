@@ -60,5 +60,20 @@ def marketCap():
 		if td[i].text == "Market Cap":
 			nthMarketCap = td[i + 1]
 			marketCap = nthMarketCap.find("b").text
-			json = '{ "Request":"Market Cap", "Price":"' + marketCap + '"}'
+			json = '{ "Request":"Market Cap", "marketCap":"' + marketCap + '"}'
 			return json
+
+#Description of the company
+@app.route("/stock/description")
+def description():
+	ticker = request.args.get('ticker', default = "goog", type = str)
+	session = requests.Session()
+	my_headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36", 
+          "Accept":"text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,image/apng,*/*;q=0.8"}
+	url = 'https://finviz.com/quote.ashx?t=' + ticker
+	response = session.get(url, headers=my_headers)
+	soup = BeautifulSoup(response.text, 'html.parser')
+	tab = soup.find("td",{"class":"fullview-profile"})
+	description = tab.text
+	json = '{ "Request":"Market Cap", "Price":"' + description + '"}'
+	return json

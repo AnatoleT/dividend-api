@@ -46,7 +46,7 @@ def price():
 
 #Give the market capitalisation of the stock based on the ticker
 @app.route("/stock/marketcap")
-def price():
+def marketCap():
 	ticker = request.args.get('ticker', default = "goog", type = str)
 	session = requests.Session()
 	my_headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36", 

@@ -22,7 +22,7 @@ def amountDividend():
 		if td[i].text == "Dividend":
 			nthDividend = td[i + 1]
 			dividendAmount = nthDividend.find("b").text
-			json = '{ "Request":"Dividend", "amount":' + dividendAmount + '}'
+			json = '{ "Request":"Dividend", "amount":"' + dividendAmount + '"}'
 			return json
 
 #Give the price of the stock based on the ticker
@@ -41,7 +41,7 @@ def price():
 		if td[i].text == "Price":
 			nthPrice = td[i + 1]
 			price = nthPrice.find("b").text
-			json = '{ "Request":"Price", "Price":' + price + '}'
+			json = '{ "Request":"Price", "Price":"' + price + '"}'
 			return json
 
 #Give the market capitalisation of the stock based on the ticker
@@ -60,5 +60,5 @@ def marketCap():
 		if td[i].text == "Market Cap":
 			nthMarketCap = td[i + 1]
 			marketCap = nthMarketCap.find("b").text
-			json = '{ "Request":"Market Cap", "Price":' + marketCap + '}'
+			json = '{ "Request":"Market Cap", "Price":"' + marketCap + '"}'
 			return json

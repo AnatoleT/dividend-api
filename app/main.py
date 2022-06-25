@@ -6,7 +6,8 @@ import requests
 
 app = Flask(__name__)
 
-@app.route("/dividend")
+#Give the amount of dividend based on the ticker
+@app.route("/dividend/amount")
 def home_view():
 	page = request.args.get('ticker', default = "goog", type = str)
 	session = requests.Session()
@@ -16,11 +17,29 @@ def home_view():
 	response = session.get(url, headers=my_headers)
 	soup = BeautifulSoup(response.text, 'html.parser')
 	tab = soup.find("table",{"class":"snapshot-table2"})
-	data_set = {"Page" : "Home", "Message" : "Hello World"}
 	td = tab.find_all("td")
 	for i in range (len(td)):
 		if td[i].text == "Dividend":
 			nthDividend = td[i + 1]
 			dividendAmount = nthDividend.find("b").text
-			json = '{ "Request":"Dividend", "ammount":' + dividendAmount + '}'
+			json = '{ "Request":"Dividend", "amount":' + dividendAmount + '}'
+			return json
+
+#Give the price of the stock based on the ticker
+@app.route("/dividend/price")
+def home_view():
+	page = request.args.get('ticker', default = "goog", type = str)
+	session = requests.Session()
+	my_headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36", 
+          "Accept":"text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,image/apng,*/*;q=0.8"}
+	url = 'https://finviz.com/quote.ashx?t=' + page
+	response = session.get(url, headers=my_headers)
+	soup = BeautifulSoup(response.text, 'html.parser')
+	tab = soup.find("table",{"class":"snapshot-table2"})
+	td = tab.find_all("td")
+	for i in range (len(td)):
+		if td[i].text == "Price":
+			nthPrice = td[i + 1]
+			price = nthPrice.find("b").text
+			json = '{ "Request":"Dividend", "Price":' + price + '}'
 			return json

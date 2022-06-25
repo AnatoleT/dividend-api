@@ -21,6 +21,6 @@ def home_view():
 	for i in range (len(td)):
 		if td[i].text == "Dividend":
 			nthDividend = td[i + 1]
-			dividendAmount = nthDividend.find("b")
+			dividendAmount = nthDividend.find("b").text
 			json = '{ "Request":"Dividend", "ammount":' + dividendAmount + '}'
 			return json

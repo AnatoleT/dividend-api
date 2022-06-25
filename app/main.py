@@ -22,4 +22,4 @@ def home_view():
 		if td[i].text == "Dividend":
 			nthDividend = td[i + 1]
 			dividendAmount = nthDividend.find("b")
-			return "<h1>" + dividendAmount.text + "</h1>"
+			return "<h1>Dividend :" + dividendAmount.text + "</h1>"

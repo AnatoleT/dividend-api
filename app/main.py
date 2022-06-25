@@ -82,7 +82,7 @@ def description():
 #Give all information about a company and his financials
 @app.route("/stock/")
 def all():
-	amountDividend = amountDividend()
+	div = amountDividend()
 	description = description()
 	page = request.args.get('ticker', default = "goog", type = str)
 	session = requests.Session()
@@ -97,5 +97,5 @@ def all():
 		if td[i].text == "Dividend":
 			nthDividend = td[i + 1]
 			dividendAmount = nthDividend.find("b").text
-			json = '{ "Request":"Dividend", "amount":"' + amountDividend + description +'"}'
+			json = '{ "Request":"Dividend", "amount":"' + div + description +'"}'
 			return json

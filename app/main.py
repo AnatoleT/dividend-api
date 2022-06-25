@@ -79,7 +79,7 @@ def description():
 	return json
 
 
-#Give all information about a company and his financials
+#Give all information about a company and his financials : dividend, price, marketcap and description
 @app.route("/stock/")
 def all():
 	ticker = request.args.get('ticker', default = "goog", type = str)
@@ -89,14 +89,30 @@ def all():
 	url = 'https://finviz.com/quote.ashx?t=' + ticker
 	response = session.get(url, headers=my_headers)
 	soup = BeautifulSoup(response.text, 'html.parser')
+	#Description
 	tab = soup.find("td",{"class":"fullview-profile"})
 	description = tab.text
+	#Market Cap
 	tab = soup.find("table",{"class":"snapshot-table2"})
 	td = tab.find_all("td")
 	for i in range (len(td)):
 		if td[i].text == "Market Cap":
 			nthMarketCap = td[i + 1]
 			marketCap = nthMarketCap.find("b").text
-			
-	json = '{ "Request":"Description", "Description":"' + description + '", "marketCap":"' + marketCap + '"}'
+	#Price
+	tab = soup.find("table",{"class":"snapshot-table2"})
+	td = tab.find_all("td")
+	for i in range (len(td)):
+		if td[i].text == "Price":
+			nthPrice = td[i + 1]
+			price = nthPrice.find("b").text
+	#DividendAmount
+	tab = soup.find("table",{"class":"snapshot-table2"})
+	td = tab.find_all("td")
+	for i in range (len(td)):
+		if td[i].text == "Dividend":
+			nthDividend = td[i + 1]
+			dividendAmount = nthDividend.find("b").text
+	#Json
+	json = '{ "Request":"Description", "Description":"' + description + '", "marketCap":"' + marketCap + '", "Price":"' + price + '", "amountDividend":"' + dividendAmount + '"}'
 	return json

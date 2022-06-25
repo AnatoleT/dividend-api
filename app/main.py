@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from bs4 import BeautifulSoup
 import json
 import requests
@@ -7,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/dividend")
 def home_view():
-	page = requests.args.get('ticker', default = "goog", type = str)
+	page = request.args.get('ticker', default = "goog", type = str)
 	session = requests.Session()
 	my_headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36", 
           "Accept":"text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,image/apng,*/*;q=0.8"}

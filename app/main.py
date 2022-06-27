@@ -16,15 +16,19 @@ def amountDividend():
           "Accept":"text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,image/apng,*/*;q=0.8"}
 	url = 'https://finviz.com/quote.ashx?t=' + page
 	response = session.get(url, headers=my_headers)
-	soup = BeautifulSoup(response.text, 'html.parser')
-	tab = soup.find("table",{"class":"snapshot-table2"})
-	td = tab.find_all("td")
-	for i in range (len(td)):
-		if td[i].text == "Dividend":
-			nthDividend = td[i + 1]
-			dividendAmount = nthDividend.find("b").text
-			json = '{ "Request":"Dividend", "amount":"' + dividendAmount + '"}'
-			return json
+	if response.status_code == 200:
+		soup = BeautifulSoup(response.text, 'html.parser')
+		tab = soup.find("table",{"class":"snapshot-table2"})
+		td = tab.find_all("td")
+		for i in range (len(td)):
+			if td[i].text == "Dividend":
+				nthDividend = td[i + 1]
+				dividendAmount = nthDividend.find("b").text
+				json = '{ "Request":"Dividend", "amount":"' + dividendAmount + '"}'
+				return json
+	else :
+		json = '{ "Request":"Dividend", "Response": "Bad ticker"}'
+		return json
 
 #Give the price of the stock based on the ticker
 @app.route("/stock/price")

@@ -1,3 +1,4 @@
+# Developped by AnatoleT
 from flask import Flask
 from flask import request
 from bs4 import BeautifulSoup
